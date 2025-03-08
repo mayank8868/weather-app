@@ -1,0 +1,154 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            background: url("{{ url_for('static', filename='bg.jpg') }}") no-repeat center center fixed; 
+            background-size: cover;
+        }
+        .weather-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            text-align: center;
+            margin-top: 20px;
+            color: black;
+        }
+        .weather-widget {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .weather-icon {
+            font-size: 40px;
+        }
+        canvas {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mt-4">🌦 Weather App</h1>
+
+        <form method="POST" class="text-center mt-3">
+            <input type="text" name="location" placeholder="Enter location" class="form-control w-50 d-inline">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
+        {% if weather %}
+            <div class="weather-card mt-4">
+                <h2>📍 {{ weather.location }}</h2>
+                <div class="row mt-3">
+                    <div class="col-md-4">
+                        <div class="weather-widget">
+                            <div class="weather-icon">🌡</div>
+                            <h5>Temperature</h5>
+                            <p>{{ weather.temperature }}°C</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="weather-widget">
+                            <div class="weather-icon">💧</div>
+                            <h5>Humidity</h5>
+                            <p>{{ weather.humidity }}%</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="weather-widget">
+                            <div class="weather-icon">🌤</div>
+                            <h5>Conditions</h5>
+                            <p>{{ weather.conditions }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            </script>
+            {% if lat and lon %}
+                <iframe width="100%" height="300" src="https://www.google.com/maps?q={{lat}},{{lon}}&output=embed"></iframe>
+            {% endif %}
+            
+            {% if forecast %}
+            <h3 class="mt-4">📊 5-Day Weather Forecast</h3>
+            <canvas id="forecastChart"></canvas>
+
+            <script>
+                var ctx = document.getElementById('forecastChart').getContext('2d');
+            
+                var forecastLabels = JSON.parse('{{ forecast.keys() | list | tojson }}');
+                var forecastData = JSON.parse('{{ forecast.values() | map(attribute="temperature") | list | tojson }}');
+            
+                var forecastChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: forecastLabels,
+                        datasets: [{
+                            label: 'Temperature (°C)',
+                            data: forecastData,
+                            fill: true,  // Fills area under the line
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 3,
+                            pointRadius: 5,  // Increases point size
+                            pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverRadius: 7, // Larger points on hover
+                            tension: 0.4  // Smooth curve effect
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    font: {
+                                        size: 14  // Increase font size
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0,0,0,0.7)',  // Dark tooltip background
+                                titleFont: { size: 16 },
+                                bodyFont: { size: 14 },
+                                bodySpacing: 6
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: { font: { size: 12 }, color: '#333' }
+                            },
+                            y: {
+                                beginAtZero: false,
+                                ticks: { font: { size: 12 }, color: '#333' },
+                                grid: { color: 'rgba(200, 200, 200, 0.3)' }  // Light grid lines
+                            }
+                        }
+                    }
+                });
+            </script>
+            
+            
+        {% endif %}
+            <h3 class="mt-4">📺 Weather Videos</h3>
+            <div class="video-container text-center">
+                {% for video in videos %}
+                    <iframe width="560" height="315" src="{{ video }}" frameborder="0" allowfullscreen></iframe>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
