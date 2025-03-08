@@ -15,3 +15,4 @@ def get_weather_forecast(location):
         })
     
     return forecast
+

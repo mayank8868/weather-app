@@ -16,7 +16,7 @@ Database Storage: Stores user queries with CRUD functionality.
 
 API Integrations: Google Maps, YouTube (if implemented).
 
-Data Export: Supports JSON, XML, CSV, PDF, and Markdown formats.
+
 
 Technologies Used
 

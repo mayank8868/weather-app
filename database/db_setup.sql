@@ -10,3 +10,4 @@ CREATE TABLE if not EXISTS weather_data (
     conditions VARCHAR(255),
     date_times DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+

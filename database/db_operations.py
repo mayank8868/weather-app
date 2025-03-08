@@ -17,3 +17,4 @@ def get_weather_data():
     data = cursor.fetchall()
     db.close()
     return data
+

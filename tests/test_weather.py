@@ -8,3 +8,4 @@ def test_get_weather_valid():
     assert "temperature" in weather
     assert "humidity" in weather
     assert "conditions" in weather
+

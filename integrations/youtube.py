@@ -27,3 +27,4 @@ def get_weather_videos():
     except requests.exceptions.RequestException as e:
         print("Error fetching YouTube videos:", e)
         return []
+

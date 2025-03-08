@@ -8,3 +8,4 @@ def connect_db():
         password="1234",
         database="weather_db"
     )
+

@@ -11,3 +11,4 @@ def get_coordinates(location):
         lon = response["results"][0]["geometry"]["location"]["lng"]
         return lat, lon
     return None, None
+

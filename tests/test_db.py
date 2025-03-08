@@ -7,3 +7,4 @@ def test_insert_weather_data():
     data = get_weather_data()
     assert len(data) > 0
     assert data[-1]["location"] == "Test City"
+

@@ -13,3 +13,4 @@ def log_info(message):
 def log_error(message):
     """Log an error message."""
     logging.error(message)
+
